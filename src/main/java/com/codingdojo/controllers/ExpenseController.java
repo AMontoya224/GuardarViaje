@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -41,4 +42,25 @@ private final ExpenseService expenseService;
 		expenseService.insertIntoExpenses(expense);
 		return "redirect:/expenses";
 	}
+	
+	@RequestMapping( value="/expenses/edit/{id}", method=RequestMethod.GET )
+	public String edit( @PathVariable("id") int id, Model model, @ModelAttribute("expense") Expense expense ) {
+		Expense expenseEncontrado = expenseService.selectAllFromExpensesWhereId(id);
+		model.addAttribute( "expense", expenseEncontrado );
+		
+		return "edit.jsp";
+	}
+	
+	@RequestMapping( value="/expenses/{id}", method=RequestMethod.PUT )
+	public String update(@Valid @ModelAttribute("expense") Expense expense, @PathVariable("id") int id, Model model, BindingResult result) {
+        if (result.hasErrors()) {
+        	Expense expenseEncontrado = expenseService.selectAllFromExpensesWhereId(id);
+    		model.addAttribute( "expense", expenseEncontrado );
+            return "edit.jsp";
+        } 
+        else {
+        	expenseService.updateExpense(expense);
+            return "redirect:/expenses";
+        }
+    }
 }

@@ -28,4 +28,17 @@ public class ExpenseService {
 		return expenseRepository.save(expense);
 	}
 	
+	public Expense selectAllFromExpensesWhereId( int id ){
+		List<Expense> expensesList = expenseRepository.findByid(id);
+		if ( expensesList.isEmpty() ) {
+			Expense expenseVacio = new Expense("N/A", "N/A", "N/A", "N/A");
+			return expenseVacio;
+		}
+		return expensesList.get(0);
+	}
+	
+	public void updateExpense( Expense expense ) {
+		expenseRepository.save(expense);
+	}
+	
 }

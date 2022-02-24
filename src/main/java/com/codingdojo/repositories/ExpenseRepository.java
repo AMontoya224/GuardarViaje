@@ -13,4 +13,6 @@ public interface ExpenseRepository extends CrudRepository<Expense, Long>{
 	
 	@SuppressWarnings("unchecked")
 	Expense save( Expense expense );
+	
+	List<Expense> findByid( int id );
 }

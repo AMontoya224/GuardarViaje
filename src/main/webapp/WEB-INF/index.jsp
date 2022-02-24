@@ -21,6 +21,7 @@
 		            <th>Expense</th>
 		            <th>Vendor</th>
 		            <th>Amount</th>
+		            <th>Actions</th>
 		        </tr>
 		    </thead>
         	<tbody>
@@ -29,6 +30,13 @@
                     	<td><c:out value="${expense.getName()}"/></td>
                         <td><c:out value="${expense.getVendor()}"/></td>
                         <td><c:out value="${expense.getAmount()}"/></td>
+                        <td>
+                        	<form action="/expenses/edit/${expense.getId()}" method="GET">
+								<button type="submit" class="link">
+									edit
+								</button>
+							</form>
+						</td>
 					</tr>
             	</c:forEach>
 			</tbody>
