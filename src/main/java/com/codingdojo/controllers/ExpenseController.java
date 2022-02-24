@@ -17,6 +17,7 @@ import com.codingdojo.services.ExpenseService;
 
 
 @Controller
+@RequestMapping( "/expenses/" )
 public class ExpenseController {
 private final ExpenseService expenseService;
 	
@@ -24,7 +25,7 @@ private final ExpenseService expenseService;
 		this.expenseService = expenseService;
 	}
 	
-	@RequestMapping( value="/expenses", method=RequestMethod.GET )
+	@RequestMapping( value="", method=RequestMethod.GET )
 	public String index( Model model, @ModelAttribute("expense") Expense expense ) {
 		List<Expense> expensesList = expenseService.selectAllFromExpenses();
 		model.addAttribute( "expensesList", expensesList );
@@ -32,35 +33,49 @@ private final ExpenseService expenseService;
 		return "index.jsp";
 	}
 	
-	@RequestMapping( value="/expenses/register", method=RequestMethod.POST )
-	public String register( @Valid @ModelAttribute("expense") Expense  expense, BindingResult result, Model model ) {
+	@RequestMapping( value="/register", method=RequestMethod.POST )
+	public String register( @Valid @ModelAttribute("expense") Expense expense, BindingResult result, Model model ) {
 		if( result.hasErrors() ) {
 			List<Expense> expensesList = expenseService.selectAllFromExpenses();
 			model.addAttribute( "expensesList", expensesList );
 			return "index.jsp";
 		}
 		expenseService.insertIntoExpenses(expense);
-		return "redirect:/expenses";
+		return "redirect:/expenses/";
 	}
 	
-	@RequestMapping( value="/expenses/edit/{id}", method=RequestMethod.GET )
+	@RequestMapping( value="/edit/{id}", method=RequestMethod.GET )
 	public String edit( @PathVariable("id") int id, Model model, @ModelAttribute("expense") Expense expense ) {
-		Expense expenseEncontrado = expenseService.selectAllFromExpensesWhereId(id);
+		Expense expenseEncontrado = expenseService.selectFromExpensesWhereId(id);
 		model.addAttribute( "expense", expenseEncontrado );
 		
 		return "edit.jsp";
 	}
 	
-	@RequestMapping( value="/expenses/{id}", method=RequestMethod.PUT )
-	public String update(@Valid @ModelAttribute("expense") Expense expense, @PathVariable("id") int id, Model model, BindingResult result) {
+	@RequestMapping( value="/{id}", method=RequestMethod.GET )
+	public String show(@PathVariable("id") int id, Model model ) {
+		Expense expenseEncontrado = expenseService.selectFromExpensesWhereId(id);
+		model.addAttribute( "expense", expenseEncontrado );
+		
+		return "show.jsp";
+    }
+	
+	@RequestMapping( value="/update", method=RequestMethod.PUT )
+	public String update(@Valid @ModelAttribute("expense") Expense expense, Model model, BindingResult result) {
         if (result.hasErrors()) {
-        	Expense expenseEncontrado = expenseService.selectAllFromExpensesWhereId(id);
+        	Expense expenseEncontrado = expenseService.selectFromExpensesWhereId(expense.getId());
     		model.addAttribute( "expense", expenseEncontrado );
             return "edit.jsp";
         } 
         else {
         	expenseService.updateExpense(expense);
-            return "redirect:/expenses";
+            return "redirect:/expenses/";
         }
     }
+	
+	@RequestMapping( value = "/delete/{id}", method = RequestMethod.DELETE )
+	public String delete( @PathVariable("id") int id ) {
+		expenseService.deleteFromExpense(id);
+		return "redirect:/expenses/";
+	}
 }

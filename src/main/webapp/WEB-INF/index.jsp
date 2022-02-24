@@ -27,15 +27,29 @@
         	<tbody>
 				<c:forEach var="expense" items="${expensesList}">
 					<tr>
-                    	<td><c:out value="${expense.getName()}"/></td>
+                    	<td>
+                    		<form action="/expenses/${expense.getId()}" method="GET">
+								<button type="submit" class="link">
+									<c:out value="${expense.getName()}"/>
+								</button>
+							</form>
+						</td>
                         <td><c:out value="${expense.getVendor()}"/></td>
                         <td><c:out value="${expense.getAmount()}"/></td>
                         <td>
-                        	<form action="/expenses/edit/${expense.getId()}" method="GET">
-								<button type="submit" class="link">
-									edit
-								</button>
-							</form>
+                        	<div class="row">
+	                        	<form action="/expenses/edit/${expense.getId()}" method="GET">
+									<button type="submit" class="link">
+										edit
+									</button>
+								</form>
+								<form action="/expenses/delete/${expense.getId()}" method="POST">
+									<input type="hidden" name="_method" value="DELETE" />
+									<button type="submit" class="delete">
+										delete
+									</button>
+								</form>
+							</div>
 						</td>
 					</tr>
             	</c:forEach>
@@ -52,25 +66,25 @@
 					<p><form:errors path="amount" class="error"/></p>
 					<p><form:errors path="description" class="error"/></p>
 				</div>
-				<div>
+				<div class="justify">
 					<form:label path="name" for="name">
 						Expense Name:
 					</form:label>
 					<form:input path="name" type="text" name="name" id="name" />
 				</div>
-				<div>
+				<div class="justify">
 					<form:label path="vendor" for="vendor">
 						Vendor:
 					</form:label>
 					<form:input path="vendor" type="text" id="vendor" name="vendor"/>
 				</div>
-				<div>
+				<div class="justify">
 					<form:label path="amount" for="amount">
 						Amount:
 					</form:label>
 					<form:input path="amount" type="text" id="amount" name="amount"/>
 				</div>
-				<div>
+				<div class="justify">
 					<form:label path="description" for="description">
 						Description:
 					</form:label>

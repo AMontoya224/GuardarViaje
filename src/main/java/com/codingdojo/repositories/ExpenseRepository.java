@@ -2,6 +2,8 @@ package com.codingdojo.repositories;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,4 +17,7 @@ public interface ExpenseRepository extends CrudRepository<Expense, Long>{
 	Expense save( Expense expense );
 	
 	List<Expense> findByid( int id );
+	
+	@Transactional
+	void deleteByid( int id );
 }

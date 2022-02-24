@@ -28,7 +28,7 @@ public class ExpenseService {
 		return expenseRepository.save(expense);
 	}
 	
-	public Expense selectAllFromExpensesWhereId( int id ){
+	public Expense selectFromExpensesWhereId( int id ){
 		List<Expense> expensesList = expenseRepository.findByid(id);
 		if ( expensesList.isEmpty() ) {
 			Expense expenseVacio = new Expense("N/A", "N/A", "N/A", "N/A");
@@ -39,6 +39,10 @@ public class ExpenseService {
 	
 	public void updateExpense( Expense expense ) {
 		expenseRepository.save(expense);
+	}
+	
+	public void deleteFromExpense( int id ) {
+		expenseRepository.deleteByid( id );
 	}
 	
 }

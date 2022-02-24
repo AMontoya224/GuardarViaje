@@ -8,7 +8,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>
-			Read Share
+			Edit My Task
 		</title>
 		<link rel="stylesheet" type="text/css" href="/css/style.css">
 	</head>
@@ -18,13 +18,13 @@
 				 <h1>
 					Edit Expense:
 				</h1> 
-				<form action="/expenses" method="GET">
+				<form action="/expenses/" method="GET">
 					<button type="submit" class="link">
 						Go back
 					</button>
 				</form>
 			</div>
-			<form:form method="POST" action="/expenses/${expense.getId()}" modelAttribute="expense">
+			<form:form method="POST" action="/expenses/update" modelAttribute="expense">
 				<input type="hidden" name="_method" value="put">
 				<input type="hidden" name="id" value="${expense.getId()}">
 				<div>
@@ -33,25 +33,25 @@
 					<p><form:errors path="amount" class="error"/></p>
 					<p><form:errors path="description" class="error"/></p>
 				</div>
-				<div>
+				<div class="justify">
 					<form:label path="name" for="name">
 						Expense Name:
 					</form:label>
 					<form:input path="name" type="text" name="name" id="name" value="${expense.getName()}" />
 				</div>
-				<div>
+				<div class="justify">
 					<form:label path="vendor" for="vendor">
 						Vendor:
 					</form:label>
 					<form:input path="vendor" type="text" id="vendor" name="vendor" value="${expense.getVendor()}" />
 				</div>
-				<div>
+				<div class="justify">
 					<form:label path="amount" for="amount">
 						Amount:
 					</form:label>
 					<form:input path="amount" type="text" id="amount" name="amount" value="${expense.getAmount()}" />
 				</div>
-				<div>
+				<div class="justify">
 					<form:label path="description" for="description">
 						Description:
 					</form:label>
