@@ -61,10 +61,8 @@ private final ExpenseService expenseService;
     }
 	
 	@RequestMapping( value="/update", method=RequestMethod.PUT )
-	public String update(@Valid @ModelAttribute("expense") Expense expense, Model model, BindingResult result) {
+	public String update(@Valid @ModelAttribute("expense") Expense expense, BindingResult result) {
         if (result.hasErrors()) {
-        	Expense expenseEncontrado = expenseService.selectFromExpensesWhereId(expense.getId());
-    		model.addAttribute( "expense", expenseEncontrado );
             return "edit.jsp";
         } 
         else {
